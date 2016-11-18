@@ -86,7 +86,6 @@ postgres_port = 5434        (5432 default postgres)
 ```
 
 ## Configurar Buildout Desarrollo
-```
 Sino queremos el Postgresql ni el Supervisor en un entorno de desarrollo,
 dehjaríamos exclusivamente las llamadas a la recetas env, py y openerp en el
 [archivo_buildout].
@@ -99,11 +98,11 @@ versionen por una regla en el .gitignore y así los podemos modificar según nue
 Hay que tener en cuenta en el nuevo devel_buildout.cfg, que tenemos que referenciar
 al nuevo devel_odoo.cfg en "extends".
 Con esta configuración ejecutaríamos ya:
-
-$ bin/buildout -c devel_[archivo_buildout]
-
-Así trabajaríamos siempre con nuestra configuración sin preocuparnos del versionado.
 ```
+$ bin/buildout -c devel_[archivo_buildout]
+```
+Así trabajaríamos siempre con nuestra configuración sin preocuparnos del versionado.
+
 
 # Contributors
 
