@@ -1,16 +1,15 @@
 # Buildout base para proyectos con Odoo y PostgreSQL
-Odoo 8.0 en el base, PostgreSQL 9.5.2 y Supervisord 3.0
-- Buildout crea cron para iniciar Supervisord después de reiniciar (esto no lo he probado)
+Odoo 8.0 en el base, PostgreSQL 9.5.5 y Supervisord 3.0
+- Buildout crea cron para iniciar Supervisord después de reiniciar
 - Supervisor ejecuta PostgreSQL, más info http://supervisord.org/
 - También ejecuta la instancia de PostgreSQL
-- Si existe un archivo dump.sql, el sistema generará la base de datos con ese dump
-- Si existe  un archivo frozen.cfg es el que se debeía usar ya que contiene las revisiones aprobadas
-- PostgreSQL se compila y corre bajo el usuario user (no es necesario loguearse como root), se habilita al autentificación "trust" para conexiones locales. Más info en more http://www.postgresql.org/docs/9.3/static/auth-methods.html
-- Existen plantillas para los archivo de configuración de Postgres que se pueden modificar para cada proyecto.
+- Si existe  un archivo frozen.cfg es el que se debería usar ya que contiene las revisiones aprobadas
+- PostgreSQL se compila y corre bajo el usuario del sistema (no es necesario loguearse como root), se habilita al autentificación "trust" para conexiones locales. Más info en more http://www.postgresql.org/docs/9.3/static/auth-methods.html
+- Existen plantillas para los archivos de configuración de Postgres que se pueden modificar para cada proyecto.
 
 
 # Uso (adaptado)
-En caso de no haberse hecho antes en la máquina en la que se vaya a realizar, instalar las dependencias que mar Anybox
+En caso de no haberse hecho antes en la máquina en la que se vaya a realizar, instalar las dependencias que manda Anybox
 - Añadir el repo a /etc/apt/sources.list:
 ```
 $ deb http://apt.anybox.fr/openerp common main
@@ -35,7 +34,7 @@ $ virtualenv sandbox --no-setuptools
 ```
 - Ahora procedemos a ejecutar el buildout en nuestro entorno virtual
 ```
-$ sandbox/bin/python bootstrap.py -c [archivo_buildout]
+$ sandbox/bin/python bootstrap.py -c [archivo_buildout] (buildout.cfg)
 ```
 - Lanzar buildout (el -c [archivo_buildout] se usa cuando no tiene el nombre por defecto buildout.cfg)
 ```
@@ -55,7 +54,7 @@ $ ./upgrade_openerp
 ```
 - odoo se lanza en el puerto 9069 (se pude configurar en otro)
 
-## Securizar el acceso al supervisor
+## Securizar el acceso al supervisor en producción
 ```
 $ sudo apt-get install iptables
 $ sudo iptables -A INPUT -i lo -p tcp --dport 9002 -j ACCEPT
@@ -86,7 +85,30 @@ supervisor_port = 9002      (9001 default supervisord)
 postgres_port = 5434        (5432 default postgres)
 ```
 
+## Configurar Buildout Desarrollo
+```
+Sino queremos el Postgresql ni el Supervisor en un entorno de desarrollo,
+dehjaríamos exclusivamente las llamadas a la recetas env, py y openerp en el
+[archivo_buildout].
+
+Para no tener que estar descartando estos cambios continuamente en el repositorio,
+igual que las configuraciones que hagamos en el odoo.cfg para acceder a nuestro
+Postgresql local, se puede optar por la estrategia de duplicar el [archivo_buildout]
+y el odoo.cfg precediéndolos del prefijo "_devel" que hace que los ficheros no se
+versionen por una regla en el .gitignore y así los podemos modificar según nuestras necesidades sin nigún problema.
+Hay que tener en cuenta en el nuevo devel_buildout.cfg, que tenemos que referenciar
+al nuevo devel_odoo.cfg en "extends".
+Con esta configuración ejecutaríamos ya:
+
+$ bin/buildout -c devel_[archivo_buildout]
+
+Así trabajaríamos siempre con nuestra configuración sin preocuparnos del versionado.
+```
+
 # Contributors
+
+Santi Argüeso, http://www.comunitea.com
+Omar Castiñeira, http://www.comunitea.com
 
 ## Creators
 
