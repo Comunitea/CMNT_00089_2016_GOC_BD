@@ -87,7 +87,7 @@ postgres_port = 5434        (5432 default postgres)
 
 ## Configurar Buildout Desarrollo
 Sino queremos el Postgresql ni el Supervisor en un entorno de desarrollo,
-dehjaríamos exclusivamente las llamadas a la recetas env, py y openerp en el
+dejaríamos exclusivamente las llamadas a la recetas env, py y openerp en el
 [archivo_buildout].
 
 Para no tener que estar descartando estos cambios continuamente en el repositorio,
