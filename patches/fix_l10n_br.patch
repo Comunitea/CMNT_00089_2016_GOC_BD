@@ -1,0 +1,26 @@
+diff --git a/addons/l10n_br/account.py b/addons/l10n_br/account.py
+index 490f748..681153a 100644
+--- a/addons/l10n_br/account.py
++++ b/addons/l10n_br/account.py
+@@ -104,10 +104,10 @@ class account_tax_template(osv.osv):
+     _columns = {
+                'tax_discount': fields.boolean('Discount this Tax in Prince', 
+                                               help="Mark it for (ICMS, PIS e etc.)."),
+-               'base_reduction': fields.float('Redution', required=True, 
++               'base_reduction': fields.float('Redution', required=False,
+                                               digits_compute=get_precision_tax(), 
+                                               help="Um percentual decimal em % entre 0-1."),
+-               'amount_mva': fields.float('MVA Percent', required=True, 
++               'amount_mva': fields.float('MVA Percent', required=False,
+                                           digits_compute=get_precision_tax(), 
+                                           help="Um percentual decimal em % entre 0-1."),
+                'type': fields.selection([('percent','Percentage'), 
+@@ -115,7 +115,7 @@ class account_tax_template(osv.osv):
+                                          ('none','None'), 
+                                          ('code','Python Code'), 
+                                          ('balance','Balance'), 
+-                                         ('quantity','Quantity')], 'Tax Type', required=True,
++                                         ('quantity','Quantity')], 'Tax Type', required=False,
+                                         help="The computation method for the tax amount."),
+                }
+     _defaults = TAX_DEFAULTS
