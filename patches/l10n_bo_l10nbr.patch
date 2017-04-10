@@ -1,0 +1,52 @@
+diff --git a/addons/account/account.py b/addons/account/account.py
+index 824751a..e1ad8da 100644
+--- a/addons/account/account.py
++++ b/addons/account/account.py
+@@ -477,7 +477,7 @@ class account_account(osv.osv):
+             "different types of accounts: view can not have journal items, consolidation are accounts that "\
+             "can have children accounts for multi-company consolidations, payable/receivable are for "\
+             "partners accounts (for debit/credit computations), closed for depreciated accounts."),
+-        'user_type': fields.many2one('account.account.type', 'Account Type', required=True,
++        'user_type': fields.many2one('account.account.type', 'Account Type', required=False,
+             help="Account Type is used for information purpose, to generate "
+               "country-specific legal reports, and set the rules to close a fiscal year and generate opening entries."),
+         'financial_report_ids': fields.many2many('account.financial.report', 'account_account_financial_report', 'account_id', 'report_line_id', 'Financial Reports'),
+diff --git a/addons/l10n_bo/__openerp__.py b/addons/l10n_bo/__openerp__.py
+index dee1f69..e891077 100644
+--- a/addons/l10n_bo/__openerp__.py
++++ b/addons/l10n_bo/__openerp__.py
+@@ -41,8 +41,6 @@ Plan contable boliviano e impuestos de acuerdo a disposiciones vigentes
+ 			],
+     "demo_xml": [
+ 			],
+-    "data": [
+-			],
+     "active": False,
+     "installable": True,
+     "certificate" : "",
+diff --git a/addons/l10n_br/account.py b/addons/l10n_br/account.py
+index 490f748..2341a83 100644
+--- a/addons/l10n_br/account.py
++++ b/addons/l10n_br/account.py
+@@ -104,10 +104,10 @@ class account_tax_template(osv.osv):
+     _columns = {
+                'tax_discount': fields.boolean('Discount this Tax in Prince', 
+                                               help="Mark it for (ICMS, PIS e etc.)."),
+-               'base_reduction': fields.float('Redution', required=True, 
++               'base_reduction': fields.float('Redution', required=False,
+                                               digits_compute=get_precision_tax(), 
+                                               help="Um percentual decimal em % entre 0-1."),
+-               'amount_mva': fields.float('MVA Percent', required=True, 
++               'amount_mva': fields.float('MVA Percent', required=False,
+                                           digits_compute=get_precision_tax(), 
+                                           help="Um percentual decimal em % entre 0-1."),
+                'type': fields.selection([('percent','Percentage'), 
+@@ -115,7 +115,7 @@ class account_tax_template(osv.osv):
+                                          ('none','None'), 
+                                          ('code','Python Code'), 
+                                          ('balance','Balance'), 
+-                                         ('quantity','Quantity')], 'Tax Type', required=True,
++                                         ('quantity','Quantity')], 'Tax Type', required=False,
+                                         help="The computation method for the tax amount."),
+                }
+     _defaults = TAX_DEFAULTS
